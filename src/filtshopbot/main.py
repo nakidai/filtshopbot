@@ -24,8 +24,11 @@ class Bot(discord.Client):
             invite = await self.fetch_invite(invite_link)
             if invite.guild is None:
                 continue
-            info: str = f"{invite.guild.name} {invite.guild.description}"
-            print(f"{message.content}: {info}")
+            info: str = f"{invite.guild.name} {invite.guild.description}".lower()
+            for banword in self.banwords:
+                if banword in info:
+                    print(f"{message.content}: {info}")
+                    break
 
 
 def main() -> None:
@@ -37,7 +40,14 @@ def main() -> None:
         "token",
         help="discord bot token"
     )
+    parser.add_argument(
+        "banwordspath",
+        help="path to file with banwords"
+    )
 
     args = parser.parse_args()
-    bot = Bot([])
+
+    with open(args.banwordspath, "r") as file:
+        banwords = [line.strip() for line in file]
+    bot = Bot(banwords)
     bot.run(args.token)

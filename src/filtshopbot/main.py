@@ -29,6 +29,10 @@ class Bot(discord.Client):
                 if banword in info:
                     print(f"{message.content}: {info}")
                     break
+            else:
+                continue
+            await message.delete()
+            break
 
 
 def main() -> None:

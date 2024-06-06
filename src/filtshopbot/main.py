@@ -24,8 +24,7 @@ class Bot(discord.Client):
             invite = await self.fetch_invite(invite_link)
             if invite.guild is None:
                 continue
-            if isinstance(invite.guild, discord.PartialInviteGuild):
-                info: str = f"{invite.guild.name} {invite.guild.description}"
+            info: str = f"{invite.guild.name} {invite.guild.description}"
             print(f"{message.content}: {info}")
 
 
